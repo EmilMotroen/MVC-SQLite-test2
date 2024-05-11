@@ -12,12 +12,12 @@ namespace MVC_SQLite_test2
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<VærDataContext>(options =>
+            builder.Services.AddDbContext<VærDataContext>(options => // Viktig å bruke VærDataContext
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<VærDataContext>();
+                .AddEntityFrameworkStores<VærDataContext>(); // VærDataContext her også
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -43,7 +43,7 @@ namespace MVC_SQLite_test2
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=VærData}/{action=Index}/{id?}");
+                pattern: "{controller=VærData}/{action=Index}/{id?}");  // Når programmet startes brukes Index fra VærData og ikke Home
             app.MapRazorPages();
 
             app.Run();
